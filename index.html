@@ -6,44 +6,60 @@
   <style>
     body {
       height: 100vh;
+      margin: 0;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
-      background: #ffe6eb;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
       text-align: center;
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin-bottom: 30px;
+      color: #ff2e63;
+      text-shadow: 0 0 10px rgba(255, 46, 99, 0.6);
+      animation: glow 1.5s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #ff2e63; }
+      to { text-shadow: 0 0 20px #ff2e63; }
     }
 
     .buttons {
       position: relative;
-      width: 300px;
-      height: 150px;
+      width: 320px;
+      height: 160px;
     }
 
     button {
-      padding: 15px 30px;
-      font-size: 1.2rem;
+      padding: 15px 35px;
+      font-size: 1.3rem;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
     }
 
     #yes {
       background-color: #ff4d6d;
       color: white;
+      box-shadow: 0 8px 20px rgba(255, 77, 109, 0.6);
     }
 
     #no {
       background-color: #6c757d;
       color: white;
       position: absolute;
-      left: 150px;
+      left: 180px;
       top: 0;
     }
 
@@ -51,38 +67,86 @@
       display: none;
       margin-top: 30px;
     }
+
+    #gif h2 {
+      color: #ff2e63;
+      font-size: 2rem;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 5s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <h1>Sameer, will you be my Valentine? 💘</h1>
+  <h1>Sameer, will you be my Valentine? 💖</h1>
 
   <div class="buttons">
-    <button id="yes">Yes 💖</button>
-    <button id="no">No 😢</button>
+    <button id="yes">Yes 💕</button>
+    <button id="no">No 🙈</button>
   </div>
 
   <div id="gif">
-    <h2>Yayyyy!!! 🎉💃🕺</h2>
-    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" width="300">
+    <h2>YAYYYY!!! 💃🎉💖</h2>
+    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" width="320">
+    <p style="font-size:1.3rem; color:#ff2e63;">
+      Best Valentine ever 💘
+    </p>
   </div>
 
   <script>
     const noButton = document.getElementById("no");
     const yesButton = document.getElementById("yes");
     const gif = document.getElementById("gif");
+    const buttons = document.querySelector(".buttons");
 
+    // Savage moving NO button
     noButton.addEventListener("mouseover", () => {
-      const x = Math.random() * 200;
-      const y = Math.random() * 100;
+      const x = Math.random() * 220;
+      const y = Math.random() * 120;
       noButton.style.left = `${x}px`;
       noButton.style.top = `${y}px`;
     });
 
+    // YES click celebration
     yesButton.addEventListener("click", () => {
-      document.querySelector(".buttons").style.display = "none";
+      buttons.style.display = "none";
       gif.style.display = "block";
+      startHearts();
     });
+
+    // Heart rain
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 6000);
+      }, 300);
+    }
   </script>
 
 </body>
