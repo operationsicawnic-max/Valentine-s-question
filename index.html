@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Valentine 💖</title>
+
   <style>
     body {
       height: 100vh;
@@ -19,8 +20,8 @@
 
     h1 {
       font-size: 2.8rem;
-      margin-bottom: 30px;
       color: #ff2e63;
+      margin-bottom: 30px;
       animation: glow 1.5s infinite alternate;
     }
 
@@ -41,7 +42,6 @@
       border: none;
       border-radius: 12px;
       cursor: pointer;
-      margin: 10px;
       transition: transform 0.2s;
     }
 
@@ -52,6 +52,7 @@
     #yes {
       background-color: #ff4d6d;
       color: white;
+      box-shadow: 0 8px 20px rgba(255,77,109,0.6);
     }
 
     #no {
@@ -62,25 +63,44 @@
       top: 0;
     }
 
-    #result {
+    #gif {
       display: none;
+      margin-top: 30px;
     }
 
+    #gif h2 {
+      font-size: 2rem;
+      color: #ff2e63;
+    }
+
+    /* Floating hearts */
     .heart {
       position: fixed;
       bottom: -20px;
       font-size: 22px;
       animation: floatUp 5s linear infinite;
+      opacity: 0.9;
     }
 
     @keyframes floatUp {
-      to {
-        transform: translateY(-110vh);
-        opacity: 0;
-      }
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      top: -10px;
+      font-size: 18px;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(360deg); }
     }
   </style>
 </head>
+
 <body>
 
   <h1>Sameer, will you be my Valentine? 💖</h1>
@@ -90,50 +110,63 @@
     <button id="no">No 🙈</button>
   </div>
 
-  <div id="result">
-    <h2>YAYYY!!! 🎉💃💖</h2>
+  <div id="gif">
+    <h2>YAYYYY!!! 💃🎉💖</h2>
     <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" width="320">
-    <br><br>
-    <button onclick="share()">Share on WhatsApp 💌</button>
+    <p style="font-size:1.3rem; color:#ff2e63;">
+      Best Valentine ever 💘
+    </p>
   </div>
 
+  <!-- Hindi romantic instrumental music -->
   <audio id="music" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/audio/2023/03/27/audio_8b8f5b6db6.mp3" type="audio/mp3">
   </audio>
 
   <script>
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
-    const result = document.getElementById("result");
+    const gif = document.getElementById("gif");
+    const buttons = document.querySelector(".buttons");
     const music = document.getElementById("music");
 
+    // NO button runs away 😈
     noBtn.addEventListener("mouseover", () => {
       noBtn.style.left = Math.random() * 220 + "px";
       noBtn.style.top = Math.random() * 120 + "px";
     });
 
+    // YES = celebration 💖
     yesBtn.addEventListener("click", () => {
-      document.querySelector(".buttons").style.display = "none";
-      result.style.display = "block";
+      buttons.style.display = "none";
+      gif.style.display = "block";
+      music.volume = 0.5;
       music.play();
-      hearts();
+      startHearts();
+      startConfetti();
     });
 
-    function hearts() {
+    function startHearts() {
       setInterval(() => {
-        const h = document.createElement("div");
-        h.className = "heart";
-        h.innerHTML = "❤️";
-        h.style.left = Math.random() * 100 + "vw";
-        document.body.appendChild(h);
-        setTimeout(() => h.remove(), 5000);
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
       }, 300);
     }
 
-    function share() {
-      const text = "I just said YES 💖🥰";
-      const url = window.location.href;
-      window.open(`https://wa.me/?text=${encodeURIComponent(text + " " + url)}`);
+    function startConfetti() {
+      setInterval(() => {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.innerText = "🎊";
+        confetti.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+      }, 150);
     }
   </script>
 
